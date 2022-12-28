@@ -1,0 +1,42 @@
+from datetime import date
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from time import sleep
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions
+
+driver = webdriver.Chrome()
+driver.get("https://www.kodlama.io")
+
+# ekranı tam boyutuna getirir
+driver.maximize_window() 
+kurs = driver.find_elements(By.XPATH,'//[@class="course-box-image-container"]') 
+# Toplam kursları sayar.
+kursSayisi = len(kurs)
+#checkTitleText = checkTitle.text
+if kursSayisi == 6:
+    print("Kurs sayısı testi başarılı!😎", " Toplam Kurs adeti:" + str(kursSayisi))
+else:
+    print("Kurs sayısı testi başarısız!❌")
+driver.save_screenshot(str(date.today()) + '(1).png')
+
+sleep(2)
+
+search = driver.find_element(By.ID,"search-courses")
+# arama ekranında istenilen kelimeleri aratır
+search.send_keys("senior")
+sleep(2)
+# Başlığın Senior Yazılım Geliştirici Yetiştirme Kampı (.NET) olup olmadığını sorgular.
+baslik1 = driver.find_element(By.XPATH,'//[@title="Senior Yazılım Geliştirici Yetiştirme Kampı (.NET)"]')
+baslik2 = driver.find_elements(By.XPATH,'//*[@title="Senior Yazılım Geliştirici Yetiştirme Kampı (.NET)"]')
+baslikText = baslik1.text
+baslikSayisi = len(baslik2)
+sleep(2)
+if baslikText == "Senior Yazılım Geliştirici Yetiştirme Kampı (.NET)" and baslikSayisi == 1:
+    print("Arama testi başarılı!😎")
+else:
+    print("Arama testi başarısız!❌")
+driver.save_screenshot(str(date.today()) + '(2).png')
+input()
